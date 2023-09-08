@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Http\Requests\StorepostRequest;
 use App\Http\Requests\UpdatepostRequest;
-use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
