@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Http\Requests\StorepostRequest;
 use App\Http\Requests\UpdatepostRequest;
+use App\Http\Resources\PostDetailResource;
 
 class PostController extends Controller
 {
@@ -16,8 +17,21 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        // return response()->json(['data' => $posts]);
+        //Collection digunakan jika data yang dikirim lebih dari 1 atau bentuknya adalah array
         return PostResource::collection($posts);
+    }
+
+    public function show($id){
+        $post = Post::with('User:id,username')->findOrFail($id);
+        //new PostResource digunakan jika data yang diambil hanya satu atau singular
+        return new PostDetailResource($post);
+    }
+
+    //Tanpa with
+    public function show2($id){
+        $post = Post::findOrFail($id);
+        //new PostResource digunakan jika data yang diambil hanya satu atau singular
+        return new PostDetailResource($post);
     }
 
     /**
@@ -39,10 +53,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(post $post)
-    {
-        //
-    }
+    // public function show(post $post)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
