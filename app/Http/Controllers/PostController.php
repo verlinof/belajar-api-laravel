@@ -27,13 +27,6 @@ class PostController extends Controller
         return new PostDetailResource($post);
     }
 
-    //Tanpa with
-    public function show2($id){
-        $post = Post::findOrFail($id);
-        //new PostResource digunakan jika data yang diambil hanya satu atau singular
-        return new PostDetailResource($post);
-    }
-
     /**
      * Show the form for creating a new resource.
      */

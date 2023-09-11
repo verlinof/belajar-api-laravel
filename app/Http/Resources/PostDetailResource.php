@@ -20,8 +20,6 @@ class PostDetailResource extends JsonResource
             'news_content' => $this->news_content,
             'created_at' => $this->created_at->format('Y-m-d'),
             'author' => $this->User,
-            //Untuk eager loading
-            'author2' => $this->whenLoaded('user')
         ];
     }
 }
