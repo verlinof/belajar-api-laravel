@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StorepostRequest;
-use App\Http\Requests\UpdatepostRequest;
 use App\Http\Resources\PostDetailResource;
 
 class PostController extends Controller
@@ -67,9 +65,17 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatepostRequest $request, post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'news_content' => 'required'
+        ]);
+
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
+
+        return new PostDetailResource($post->loadMissing('User:id,username'));
     }
 
     /**
