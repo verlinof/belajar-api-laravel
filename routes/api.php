@@ -10,7 +10,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [AuthenticationController::class, 'logout']);
     Route::get('/profile', [AuthenticationController::class, 'profile']);
     Route::post('/posts', [PostController::class, 'store']);
-    Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware('pemilik-postingan');
+
+    Route::middleware(['pemilik-postingan'])->group(function (){
+        Route::patch('/posts/{id}', [PostController::class, 'update']);
+        Route::delete('/posts/{id}', [PostController::class, 'destroy']);
+    });
 });
 
 Route::get('/posts', [PostController::class, 'index']);

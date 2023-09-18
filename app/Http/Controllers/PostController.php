@@ -81,8 +81,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return new PostDetailResource($post->loadMissing('User:id,username'));
     }
 }
