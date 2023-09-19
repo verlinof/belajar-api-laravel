@@ -13,7 +13,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/posts', [PostController::class, 'store']);
     Route::post('/comment', [CommentController::class, 'store']);
 
-    Route::patch('/comment/{id}', [CommentController::class, 'update'])->middleware(['pemilik-komentar']);
+    Route::middleware(['pemilik-komentar'])->group(function () {
+        Route::patch('/comment/{id}', [CommentController::class, 'update']);
+        Route::delete('/comment/{id}', [CommentController::class, 'destroy']);
+    });
 
     Route::middleware(['pemilik-postingan'])->group(function (){
         Route::patch('/posts/{id}', [PostController::class, 'update']);

@@ -77,8 +77,11 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(comment $comment)
+    public function destroy($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+
+        return new CommentResource($comment->loadMissing(['User:id,username', 'Post:id,title']));
     }
 }
