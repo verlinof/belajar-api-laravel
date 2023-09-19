@@ -16,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('User:id,username')->get();
+        $posts = Post::with(['User:id,username','Comment:id,post_id,user_id,comments_content'])->get();
         //Collection digunakan jika data yang dikirim lebih dari 1 atau bentuknya adalah array
         return PostResource::collection($posts);
     }
@@ -49,7 +49,7 @@ class PostController extends Controller
      */
     public function show(post $post, $id)
     {
-        $post = Post::with('User:id,username')->findOrFail($id);
+        $post = Post::with('User:id,username','Comment:id,post_id,user_id,comments_content')->findOrFail($id);
         //new PostResource digunakan jika data yang diambil hanya satu atau singular
         return new PostDetailResource($post);
     }
