@@ -13,6 +13,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/posts', [PostController::class, 'store']);
     Route::post('/comment', [CommentController::class, 'store']);
 
+    Route::patch('/comment/{id}', [CommentController::class, 'update'])->middleware(['pemilik-komentar']);
+
     Route::middleware(['pemilik-postingan'])->group(function (){
         Route::patch('/posts/{id}', [PostController::class, 'update']);
         Route::delete('/posts/{id}', [PostController::class, 'destroy']);

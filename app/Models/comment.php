@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Comment extends Model
 {
@@ -14,4 +18,14 @@ class Comment extends Model
         "user_id",
         "comments_content"
     ];
+
+    public function User(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function Post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

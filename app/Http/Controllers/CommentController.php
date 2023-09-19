@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\comment;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CommentResource;
 use App\Http\Requests\StorecommentRequest;
 use App\Http\Requests\UpdatecommentRequest;
 
@@ -40,7 +41,7 @@ class CommentController extends Controller
         $request["user_id"] = Auth::user()->id;
         $comment = Comment::create($request->all());
 
-        return response()->json($comment);
+        return new CommentResource($comment->loadMissing(['User:id,username', 'Post:id,title']));
     }
 
     /**
@@ -54,7 +55,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(comment $comment)
+    public function edit()
     {
         //
     }
@@ -62,9 +63,15 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'comments_content' => 'required'
+        ]);
+
+        $comment = Comment::findOrFail($id);
+        $comment->update($request->only('comments_content'));
+        return new CommentResource($comment->loadMissing(['User:id,username', 'Post:id,title']));
     }
 
     /**
