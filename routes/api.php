@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [AuthenticationController::class, 'logout']);
     Route::get('/profile', [AuthenticationController::class, 'profile']);
     Route::post('/posts', [PostController::class, 'store']);
+    Route::post('/comment', [CommentController::class, 'store']);
 
     Route::middleware(['pemilik-postingan'])->group(function (){
         Route::patch('/posts/{id}', [PostController::class, 'update']);
